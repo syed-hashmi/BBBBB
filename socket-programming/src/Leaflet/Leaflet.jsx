@@ -1,48 +1,46 @@
 
-import L, { icon } from "leaflet";
+import L from "leaflet";
 import "leaflet/dist/leaflet.css";
-import { debug } from "node:console";
-import { Socket } from "node:dgram";
 import { useEffect, useRef } from "react";
 import { io } from "socket.io-client"
 
-const ships = [
-  {
-    id: "SHIP-001",
-    name: "MSC Aurora",
-    latitude: 24.4539,
-    longitude: 54.3773,
-    status: "In Transit"
-  },
-  {
-    id: "SHIP-002",
-    name: "Maersk Horizon",
-    latitude: 24.5102,
-    longitude: 54.6201,
-    status: "In Transit"
-  },
-  {
-    id: "SHIP-003",
-    name: "CMA CGM Atlas",
-    latitude: 24.3856,
-    longitude: 54.2154,
-    status: "Anchored"
-  },
-  {
-    id: "SHIP-004",
-    name: "Ever Glory",
-    latitude: 24.6205,
-    longitude: 54.4812,
-    status: "In Transit"
-  },
-  {
-    id: "SHIP-005",
-    name: "Hapag Express",
-    latitude: 24.2901,
-    longitude: 54.5307,
-    status: "Docked"
-  }
-];
+// const ships = [
+//   {
+//     id: "SHIP-001",
+//     name: "MSC Aurora",
+//     latitude: 24.4539,
+//     longitude: 54.3773,
+//     status: "In Transit"
+//   },
+//   {
+//     id: "SHIP-002",
+//     name: "Maersk Horizon",
+//     latitude: 24.5102,
+//     longitude: 54.6201,
+//     status: "In Transit"
+//   },
+//   {
+//     id: "SHIP-003",
+//     name: "CMA CGM Atlas",
+//     latitude: 24.3856,
+//     longitude: 54.2154,
+//     status: "Anchored"
+//   },
+//   {
+//     id: "SHIP-004",
+//     name: "Ever Glory",
+//     latitude: 24.6205,
+//     longitude: 54.4812,
+//     status: "In Transit"
+//   },
+//   {
+//     id: "SHIP-005",
+//     name: "Hapag Express",
+//     latitude: 24.2901,
+//     longitude: 54.5307,
+//     status: "Docked"
+//   }
+// ];
 
 
 
@@ -50,9 +48,9 @@ const Leaflet = () => {
   const mapRef = useRef(null);
   const markerRef = useRef(new Map());
 
-  let socket: any = null;
+  
   useEffect(() => {
-    let map: any = null;
+    let map;
     if (!mapRef.current) {
       map = L.map("map").setView(
         [24.4539, 54.3773],
@@ -71,6 +69,7 @@ const Leaflet = () => {
         }
       ).addTo(map);
     }
+    let socket;
     if (!socket) {
       socket = io("http://localhost:3000");
     }
@@ -78,9 +77,9 @@ const Leaflet = () => {
       console.log("connected:", socket.id);
       console.log("recovered:", socket.recovered);
     })
-    socket.on("ship-locations", (ships:any) => {
+    socket.on("ship-locations", (ships) => {
 
-      ships.forEach((ship: any) => {
+      ships.forEach((ship) => {
         const existingMarker = markerRef.current.get(ship.shipId);
 
         if (!existingMarker) {
@@ -105,8 +104,7 @@ const Leaflet = () => {
     });
 
     socket.on("disconnect",()=>{
-      debugger;
-    })
+     })
   });
 
   return <div id="map" style={{ height: "500px" }} />;
