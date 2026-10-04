@@ -1,0 +1,14 @@
+.outside{
+   
+    border-radius: 5px;
+    border: 2px solid black;
+    width: 100%;
+     overflow: hidden;
+}
+
+.background-color{
+    background-color: green;
+   
+    height: 20px;
+    transition: 0.5s ease-in;
+}

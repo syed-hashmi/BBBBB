@@ -1,0 +1,7 @@
+.tabs {
+    display: flex;
+}
+
+.items {
+    border: 2px solid black;
+}
